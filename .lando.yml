@@ -1,0 +1,7 @@
+name: am-open-brew
+recipe: pantheon
+config:
+  webroot: web
+  framework: drupal8
+  site: am-open-brew
+  id: 24b50851-1e99-4678-a3a0-1481c47f7a3d
