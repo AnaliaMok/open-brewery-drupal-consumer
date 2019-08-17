@@ -18,6 +18,7 @@
         "drupal/config_installer": "^1.0",
         "drupal/console": "^1",
         "drupal/core": "^8.6.15",
+        "drupal/http_client_manager": "^2.3",
         "drush-ops/behat-drush-endpoint": "^9.3",
         "drush/drush": "~8",
         "pantheon-systems/quicksilver-pushback": "~1",
