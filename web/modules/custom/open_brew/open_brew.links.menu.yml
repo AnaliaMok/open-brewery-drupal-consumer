@@ -1,0 +1,6 @@
+open_brew.open_brew_config_form:
+  title: "Open Brew Config Form"
+  route_name: open_brew.open_brew_config_form
+  description: "Configuration for Open Brewery DB module"
+  parent: system.admin_config_system
+  weight: 99

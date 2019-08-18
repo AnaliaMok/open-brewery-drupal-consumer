@@ -1,0 +1,9 @@
+open_brew.open_brew_config_form:
+  path: '/admin/config/services/open_brew/openbrewconfig'
+  defaults:
+    _form: '\Drupal\open_brew\Form\OpenBrewConfigForm'
+    _title: 'OpenBrewConfigForm'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
