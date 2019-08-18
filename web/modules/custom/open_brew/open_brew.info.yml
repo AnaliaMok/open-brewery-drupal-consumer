@@ -1,0 +1,5 @@
+name: 'Open Brew'
+type: module
+description: 'POC module that acts as a consumer of the OpenBrew DB api'
+core: 8.x
+package: 'Custom'

@@ -1,0 +1,15 @@
+{
+    "name": "open_brew",
+    "type": "drupal-module",
+    "description": "POC module that acts as a consumer of the OpenBrew DB api",
+    "keywords": [],
+    "homepage": "https://www.drupal.org/project/open_brew",
+    "minimum-stability": "dev",
+    "support": {
+        "issues": "https://www.drupal.org/project/issues/open_brew",
+        "source": "http://cgit.drupalcode.org/open_brew"
+    },
+    "require": {
+        "drupal/http_client_manager": "^2.3"
+    }
+}

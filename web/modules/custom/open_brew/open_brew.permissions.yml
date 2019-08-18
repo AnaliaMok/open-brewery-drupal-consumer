@@ -1,0 +1,8 @@
+openbrew access:
+  title: "OpenBrew Access Content"
+  description: "Allow access to my content"
+  restrict access: true
+openbrew edit:
+  title: "OpenBrew Edit Content"
+  description: "Allow access to my content"
+  restrict access: true

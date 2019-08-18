@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Contains open_brew.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function open_brew_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the open_brew module.
+    case 'help.page.open_brew':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('POC module that acts as a consumer of the OpenBrew DB api') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function open_brew_theme() {
+  return [
+    'open_brew' => [
+      'render element' => 'children',
+    ],
+  ];
+}

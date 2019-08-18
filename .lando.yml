@@ -9,3 +9,9 @@ tooling:
   phpstan:
     service: appserver
     cmd: vendor/bin/phpstan
+  phpcs:
+    service: appserver
+    cmd: vendor/bin/phpcs
+  phpcbf:
+    service: appserver
+    cmd: vendor/bin/phpcbf
