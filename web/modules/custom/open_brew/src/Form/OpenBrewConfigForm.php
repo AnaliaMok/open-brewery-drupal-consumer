@@ -13,24 +13,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class OpenBrewConfigForm extends ConfigFormBase
 {
   /**
-   * Constructs a new OpenBrewConfigForm object.
-   */
-  public function __construct(ConfigFactoryInterface $config_factory)
-  {
-    parent::__construct($config_factory);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container)
-  {
-    return new static(
-      $container->get('config.factory')
-    );
-  }
-
-  /**
    * {@inheritdoc}
    */
   protected function getEditableConfigNames()
@@ -54,6 +36,39 @@ class OpenBrewConfigForm extends ConfigFormBase
   public function buildForm(array $form, FormStateInterface $form_state)
   {
     $config = $this->config('open_brew.openbrewconfig');
+    $state  = \Drupal::state();
+
+    $form['open_brew'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('OpenBrew Settings'),
+    ];
+
+    $form['open_brew']['base_url'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('OpenBrew API URL'),
+      '#default_value' => $config->get('open_brew.base_url'),
+    ];
+
+    $nums   = [
+      5, 10, 25, 50, 75, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 900,
+    ];
+
+    $limits = array_combine($nums, $nums);
+
+    $form['open_brew']['cron_download_limit'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Cron API Download Limit'),
+      '#options' => $limits,
+      '#default_value' => $state->get('open_brew.cron_download_limit', 100),
+    ];
+
+    $form['open_brew']['cron_process_limit'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Cron QuThrottle'),
+      '#options' => $limits,
+      '#default_value' => $state->get('open_brew.cron_process_limit', 25),
+    ];
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -62,9 +77,14 @@ class OpenBrewConfigForm extends ConfigFormBase
    */
   public function submitForm(array &$form, FormStateInterface $form_state)
   {
-    parent::submitForm($form, $form_state);
+    $values = $form_state->getValues();
+    $config = $this->config('open_brew.openbrewconfig');
+    $state = \Drupal::state();
 
-    $this->config('open_brew.openbrewconfig')
-      ->save();
+    $config->set('open_brew.base_url', $values['base_url']);
+    $config->save();
+
+    $state->set('open_brew.cron_download_limit', $values['cron_download_limit']);
+    $state->set('open_brew.cron_process_limit', $values['cron_process_limit']);
   }
 }
