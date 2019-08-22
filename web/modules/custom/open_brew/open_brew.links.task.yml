@@ -1,0 +1,13 @@
+# Tab Defintions
+open_brew.overview:
+  title: API Status
+  route_name: open_brew.overview
+  base_route: open_brew.overview
+open_brew.open_brew_config_form:
+  title: Configure
+  route_name: open_brew.open_brew_config_form
+  base_route: open_brew.overview
+open_brew.brewery_import:
+  title: Brewery Import
+  route_name: open_brew.overview
+  base_route: open_brew.overview

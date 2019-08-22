@@ -1,9 +1,27 @@
+open_brew.overview:
+  path: "/admin/config/services/open_brew"
+  defaults:
+    _controller: '\Drupal\open_brew\Controller\OpenBrewOverviewController::showOverview'
+    _title: "OpenBrew API Status Report"
+  requirements:
+    _permission: "access administration pages"
+  options:
+    _admin_route: TRUE
+open_brew.brewery_import:
+  path: "/admin/config/services/open_brew/brewery-import"
+  defaults:
+    _form: '\Drupal\open_brew\Form\OpenBrewBreweryImportForm'
+    _title: "OpenBrew API: Brewery Import"
+  requirements:
+    _permission: "access administration pages"
+  options:
+    _admin_route: TRUE
 open_brew.open_brew_config_form:
-  path: '/admin/config/services/open_brew/openbrewconfig'
+  path: "/admin/config/services/open_brew/openbrewconfig"
   defaults:
     _form: '\Drupal\open_brew\Form\OpenBrewConfigForm'
-    _title: 'OpenBrewConfigForm'
+    _title: "OpenBrew Configuration"
   requirements:
-    _permission: 'access administration pages'
+    _permission: "access administration pages"
   options:
     _admin_route: TRUE

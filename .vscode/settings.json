@@ -22,5 +22,6 @@
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
   "html.format.enable": true,
-  "html.format.wrapLineLength": 80
+  "html.format.wrapLineLength": 80,
+  "phpcs.enable": false
 }

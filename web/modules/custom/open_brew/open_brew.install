@@ -1,0 +1,100 @@
+<?php
+
+use Drupal\Core\Database\Database;
+
+/**
+ * Implements hook_schema().
+ */
+function open_brew_schema()
+{
+    // Stores breweries "as-is" directly from the api.
+    $schema['open_brew_breweries'] = [
+        'description' => 'Contains raw data downloaded from the OpenBrewery API',
+        'fields' => [
+            'gid' => [
+                'description' => 'Primary ID within drupal',
+                'type' => 'int',
+                'size' => 'big',
+                'not null' => TRUE,
+                'default' => 0,
+            ],
+            'bid' => [
+                'description' => 'Brewery ID used within the OpenBrewery API',
+                'type' => 'int',
+                'size' => 'big',
+                'not null' => TRUE,
+                'default' => 0,
+            ],
+            'name' => [
+                'description' => 'Brewery name',
+                'type' => 'varchar',
+                'length' => 255,
+                'default' => '',
+            ],
+            'brewery_type' => [
+                'description' => 'Brewery type. Will become a taxonomy later.',
+                'type' => 'varchar',
+                'length' => 128,
+                'default' => '',
+            ],
+            'street' => [
+                'description' => 'Brewery street address',
+                'type' => 'varchar',
+                'length' => 255,
+                'not null' => TRUE,
+                'default' => '',
+            ],
+            'city' => [
+                'type' => 'varchar',
+                'length' => 255,
+                'not null' => TRUE,
+                'default' => '',
+            ],
+            'state' => [
+                'type' => 'varchar',
+                'length' => 255,
+                'not null' => TRUE,
+                'default' => '',
+            ],
+            'postal_code' => [
+                'type' => 'varchar',
+                'length' => 20,
+                'not null' => TRUE,
+                'default' => '',
+            ],
+            'country' => [
+                'type' => 'varchar',
+                'length' => 200,
+                'not null' => TRUE,
+                'default' => 'United States',
+            ],
+            'longitude' => [
+                'type' => 'numeric',
+                'precision' => 3,
+                'scale' => 6,
+            ],
+            'latitude' => [
+                'type' => 'numeric',
+                'precision' => 3,
+                'scale' => 6,
+            ],
+            'phone' => [
+                'type' => 'varchar',
+                'length' => 20, // Added some extra room
+                'default' => '',
+            ],
+            'website_url' => [
+                'type' => 'varchar',
+                'length' => 255,
+                'default' => '',
+            ],
+            'tag_list' => [
+                'description' => 'Serialized list of all tags associated with this brewery. Will become a taxonomy later.',
+                'type' => 'blob',
+                'size' => 'normal',
+                'default' => '[]'
+            ]
+        ],
+        'primary_key' => ['gid'],
+    ];
+}
