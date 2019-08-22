@@ -1,0 +1,4 @@
+open_brew:
+  base_url: 'https://api.openbrewerydb.org/'
+_core:
+  default_config_hash: dUI9RzPyc_P1bP-Mv6tEm6sNWpgdr6-cG07csfmSYks
