@@ -1,0 +1,4 @@
+services:
+  open_brew.connection:
+    class: 'Drupal\open_brew\OpenBrewConnection'
+    arguments: ["@config.factory", "@http_client"]

@@ -2,12 +2,12 @@
 
 namespace Drupal\open_brew;
 
+use GuzzleHttp\Client;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use GuzzleHttp\ClientInterface;
 
 class OpenBrewConnection
 {
-
     /**
      * GuzzleHttp\ClientInterface definition.
      *
@@ -23,9 +23,9 @@ class OpenBrewConnection
     /**
      * Creates an instance of the OpenBrewConnection
      *
-     * @param ClientInterface $http_client
+     * @param GuzzleHttp\Client $http_client
      */
-    public function __construct(ConfigFactoryInterface $config_factory, ClientInterface $http_client)
+    public function __construct(ConfigFactoryInterface $config_factory, Client $http_client)
     {
         $this->config = $config_factory->get('open_brew.openbrewconfig');
         $this->httpClient = $http_client;
@@ -50,10 +50,12 @@ class OpenBrewConnection
      * @return array
      *   Query results.
      */
-    public static function query($endpoint, $options = []): array
+    public function query($endpoint, $options = []): array
     {
         // TODO
-        return [];
+        $requestUrl = $this->buildRequestUrl($endpoint, $options);
+
+        return [$requestUrl];
     }
 
     /**
@@ -64,8 +66,27 @@ class OpenBrewConnection
      * @return string
      *   Formatted request url.
      */
-    public static function buildRequestUrl($endpoint, $options = []): string
+    private function buildRequestUrl($endpoint, $options = []): string
     {
-        return '';
+        $baseUrl = $this->config->get('base_url') ?? 'https://api.openbrewerydb.org/';
+
+        if ($baseUrl[strlen($baseUrl) - 1] !== '/') {
+            $baseUrl .= '/';
+        }
+
+        $baseUrl .= $endpoint;
+
+        if (count($options) === 0) {
+            return $baseUrl;
+        }
+
+        // Build query params.
+        $baseUrl .= '?';
+
+        foreach ($options as $key => $value) {
+            $baseUrl .= urlencode($key) . '=' . urlencode($value);
+        }
+
+        return $baseUrl;
     }
 }
