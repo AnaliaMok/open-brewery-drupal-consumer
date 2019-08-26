@@ -5,6 +5,8 @@ namespace Drupal\open_brew;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Exception;
+use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class OpenBrewConnection
@@ -48,14 +50,41 @@ class OpenBrewConnection
      *
      * @param string $endpoint - API endpoint to query.
      * @param array $options - Optional query parameters.
-     * @return GuzzleHttp\Psr7\Response
-     *   Response instance.
+     * @return array
+     *   Response array.
      */
-    public function query($endpoint, $options = []): Response
+    public function query($endpoint, $options = []): array
     {
         $requestUrl = $this->buildRequestUrl($endpoint, $options);
+        $response = [
+            'result' => FALSE,
+        ];
+
         // TODO: Add error handling.
-        return $this->httpClient->request('GET', $requestUrl);
+        try {
+            $response['result'] = $this->httpClient->request('GET', $requestUrl);
+        } catch (GuzzleException $guzzleException) {
+            // Guzzle's Own Exceptions.
+            $response['render'] = [
+                '#theme' => 'item_list',
+                '#title' => t('Guzzle Error'),
+                '#items' => [
+                    'code' => t('@c', ['@c' => $guzzleException->getMessage()]),
+                ],
+            ];
+        } catch (Exception $e) {
+            // General PHP Errors.
+            $response['render'] = [
+                '#theme' => 'item_list',
+                '#title' => t('PHP Error'),
+                '#items' => [
+                    'code' => t('Code: @c', ['@c' => $e->getCode()]),
+                    'exception' => t('@e', ['@e' => $e->getMessage()]),
+                ],
+            ];
+        }
+
+        return $response;
     }
 
     /**

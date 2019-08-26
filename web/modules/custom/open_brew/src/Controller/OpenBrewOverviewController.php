@@ -48,15 +48,15 @@ class OpenBrewOverviewController extends ControllerBase
 
         $build['response'] = [];
 
-        if ($response->getStatusCode() === 200) {
-            $build['response']['#markup'] = '<p><strong>Status:</strong> 200</p>';
+        if ($response['result'] && $response['result']->getStatusCode() === 200) {
+            $build['response']['#markup'] = '<p><strong>Status:</strong> 200</p><h2>' . t('First 10 Breweries') . '</h2>';
             $build['results'] = [
                 '#type' => 'table',
                 '#header' => [t('ID'), t('Name'), t('Brewery Type'), t('City'), t('State'), t('Website')],
-                '#title' => t('First 10 Breweries'),
+                '#empty' => t('No breweries were found'),
             ];
 
-            $results = json_decode($response->getBody(), TRUE);
+            $results = json_decode($response['result']->getBody(), TRUE);
             foreach ($results as $brewery) {
                 $build['results']['#rows'][$brewery['id']] = [
                     $brewery['id'],
@@ -68,8 +68,7 @@ class OpenBrewOverviewController extends ControllerBase
                 ];
             }
         } else {
-            $build['response']['#items'][] = t('Status: ' . $response->getStatusCode());
-            $build['response']['#items'][] = 'No Results Found';
+            $build['error'] = $results['render'];
         }
 
         return $build;
