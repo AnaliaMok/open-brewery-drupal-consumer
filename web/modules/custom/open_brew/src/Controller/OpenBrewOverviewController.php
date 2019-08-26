@@ -43,24 +43,29 @@ class OpenBrewOverviewController extends ControllerBase
     {
         $response = $this->connection->query('breweries', [
             'page' => 1,
-            'per_page' => 5,
+            'per_page' => 10,
         ]);
 
-        $build['response'] = [
-            '#theme' => 'item_list',
-            '#title' => t('Results'),
-        ];
+        $build['response'] = [];
 
         if ($response->getStatusCode() === 200) {
-            $build['response']['#items'][] = t('Status: 200');
+            $build['response']['#markup'] = '<p><strong>Status:</strong> 200</p>';
             $build['results'] = [
-                '#theme' => 'item_list',
-                '#title' => t('First 5 Breweries'),
+                '#type' => 'table',
+                '#header' => [t('ID'), t('Name'), t('Brewery Type'), t('City'), t('State'), t('Website')],
+                '#title' => t('First 10 Breweries'),
             ];
 
             $results = json_decode($response->getBody(), TRUE);
             foreach ($results as $brewery) {
-                $build['results']['#items'][] = $brewery['name'];
+                $build['results']['#rows'][$brewery['id']] = [
+                    $brewery['id'],
+                    $brewery['name'],
+                    $brewery['brewery_type'],
+                    $brewery['city'],
+                    $brewery['state'],
+                    $brewery['website_url'],
+                ];
             }
         } else {
             $build['response']['#items'][] = t('Status: ' . $response->getStatusCode());
