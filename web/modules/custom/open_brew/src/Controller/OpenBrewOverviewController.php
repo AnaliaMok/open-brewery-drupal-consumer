@@ -41,10 +41,31 @@ class OpenBrewOverviewController extends ControllerBase
      */
     public function showOverview()
     {
-        $build = [];
+        $response = $this->connection->query('breweries', [
+            'page' => 1,
+            'per_page' => 5,
+        ]);
 
-        // TODO: Implement.
-        $build['#markup'] = $this->connection->query('breweries')[0];
+        $build['response'] = [
+            '#theme' => 'item_list',
+            '#title' => t('Results'),
+        ];
+
+        if ($response->getStatusCode() === 200) {
+            $build['response']['#items'][] = t('Status: 200');
+            $build['results'] = [
+                '#theme' => 'item_list',
+                '#title' => t('First 5 Breweries'),
+            ];
+
+            $results = json_decode($response->getBody(), TRUE);
+            foreach ($results as $brewery) {
+                $build['results']['#items'][] = $brewery['name'];
+            }
+        } else {
+            $build['response']['#items'][] = t('Status: ' . $response->getStatusCode());
+            $build['response']['#items'][] = 'No Results Found';
+        }
 
         return $build;
     }

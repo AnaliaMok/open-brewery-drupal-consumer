@@ -3,6 +3,7 @@
 namespace Drupal\open_brew;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Response;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -47,15 +48,14 @@ class OpenBrewConnection
      *
      * @param string $endpoint - API endpoint to query.
      * @param array $options - Optional query parameters.
-     * @return array
-     *   Query results.
+     * @return GuzzleHttp\Psr7\Response
+     *   Response instance.
      */
-    public function query($endpoint, $options = []): array
+    public function query($endpoint, $options = []): Response
     {
-        // TODO
         $requestUrl = $this->buildRequestUrl($endpoint, $options);
-
-        return [$requestUrl];
+        // TODO: Add error handling.
+        return $this->httpClient->request('GET', $requestUrl);
     }
 
     /**
@@ -84,8 +84,10 @@ class OpenBrewConnection
         $baseUrl .= '?';
 
         foreach ($options as $key => $value) {
-            $baseUrl .= urlencode($key) . '=' . urlencode($value);
+            $baseUrl .= urlencode($key) . '=' . urlencode($value) . '&';
         }
+
+        $baseUrl = rtrim($baseUrl, '&');
 
         return $baseUrl;
     }
