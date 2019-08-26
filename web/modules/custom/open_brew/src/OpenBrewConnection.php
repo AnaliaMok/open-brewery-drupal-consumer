@@ -60,7 +60,6 @@ class OpenBrewConnection
             'result' => FALSE,
         ];
 
-        // TODO: Add error handling.
         try {
             $response['result'] = $this->httpClient->request('GET', $requestUrl);
         } catch (GuzzleException $guzzleException) {
