@@ -9,7 +9,7 @@ open_brew.open_brew_config_form:
   route_name: open_brew.open_brew_config_form
   description: "Configuration for Open Brewery DB module"
   parent: open_brew.overview
-# open_brew.brewery_import:
-#   title: "Open Brew Brewery Import"
-#   route_name: open_brew.brewery_import
-#   parent: open_brew.overview
+open_brew.open_brew_brewery_import_form:
+  title: "Open Brew Brewery Import"
+  route_name: open_brew.brewery_import
+  parent: open_brew.overview

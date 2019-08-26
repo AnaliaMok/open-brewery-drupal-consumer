@@ -3,6 +3,7 @@
 namespace Drupal\open_brew\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\open_brew\OpenBrewConnection;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -49,6 +50,8 @@ class OpenBrewOverviewController extends ControllerBase
         $build['response'] = [];
 
         if ($response['result'] && $response['result']->getStatusCode() === 200) {
+            \Drupal::messenger()->addMessage(t('OpenBrewDB Pinged Successfully'));
+
             $build['response']['#markup'] = '<p><strong>Status:</strong> 200</p><h2>' . t('First 10 Breweries') . '</h2>';
             $build['results'] = [
                 '#type' => 'table',
@@ -68,6 +71,7 @@ class OpenBrewOverviewController extends ControllerBase
                 ];
             }
         } else {
+            \Drupal::messenger()->addError(t('Something went wrong pinging OpenBrewDB. See details below.'));
             $build['error'] = $results['render'];
         }
 
